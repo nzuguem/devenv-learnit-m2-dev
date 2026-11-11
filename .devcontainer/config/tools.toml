@@ -20,6 +20,7 @@ fzf = "0.74.5"
 neovim = "0.12.6"
 herdr = "0.9.5"
 watchexec = "2.8.0"
+usage = "7.3.0" # Required by `mise completion` (bashrc.sh) and tasks `usage` specs
 
 # AI assistants
 claude = "2.1.318"

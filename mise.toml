@@ -1,4 +1,6 @@
-# Host side only: tools and tasks to build and launch the devcontainer.
+# Host side only: tools and tasks to create and open the devcontainer.
+# This file is ignored inside the container (MISE_IGNORED_CONFIG_PATHS, set in
+# .devcontainer/devcontainer.json), so these tasks are not listed there.
 # Everything used inside the devcontainer (tools, env, module tasks) lives in
 # mise.devcontainer.toml, loaded only when MISE_ENV=devcontainer.
 [tools]
@@ -12,9 +14,18 @@ task.quiet = true
 # DevEnv (host side)
 ################################################################################
 
+[tasks."devenv:create"]
+description = "🏗️  Create (or recreate from scratch) the devenv container, then open it"
+run = [
+  "devcontainer up --remove-existing-container=true --workspace-folder ./",
+  { task = "devenv:open" },
+]
+
+# `devcontainer up` without --remove-existing-container: reuses the running container,
+# restarts it if it was stopped, and never recreates it
 [tasks."devenv:open"]
-description = "🚀 Open devenv-learnit-m2-dev in container"
+description = "🚀 Open the devenv (herdr inside the container)"
 run = '''
-devcontainer up --remove-existing-container=true --workspace-folder ./
+devcontainer up --workspace-folder ./ > /dev/null
 devcontainer exec --workspace-folder ./ herdr
 '''

@@ -1,7 +1,10 @@
-# Devcontainer only (on top of mise.toml): env, vars and tasks, including the modules tasks.
+# Devcontainer only: env, settings and tasks, including the modules tasks.
 # Loaded when MISE_ENV=devcontainer (set in .devcontainer/devcontainer.json), so that
-# the host does not list these tasks.
+# the host does not list these tasks. mise.toml (host tasks) is ignored in the container.
 # The devcontainer tools are in .devcontainer/config/tools.toml (container global config).
+
+[settings]
+task.quiet = true
 
 [env]
 _.file = ".env" # Optional, see .env.example

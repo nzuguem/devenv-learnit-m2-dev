@@ -18,6 +18,7 @@
     "MISE_ENV": "devcontainer",
     "SHELL": "/bin/bash",
     "MISE_GLOBAL_CONFIG_FILE": "/workspaces/${localWorkspaceFolderBasename}/.devcontainer/config/tools.toml",
+    "MISE_IGNORED_CONFIG_PATHS": "/workspaces/${localWorkspaceFolderBasename}/mise.toml",
     "QUARKUS_HTTP_HOST": "0.0.0.0"
   },
   "remoteEnv": {

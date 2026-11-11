@@ -35,18 +35,48 @@ Docker and mise on your own machine.
    mise trust && mise install
    ```
 
-3. Start the environment. This builds and starts the container, then opens herdr inside it:
+3. Create and open the environment. This builds and starts the container, then opens
+   herdr inside it:
 
    ```bash
-   mise run devenv:open
+   mise run devenv:create
    ```
 
-The first start takes a while: the image is built, then all the tools are installed
-in the container. The next starts are much faster, because the tools are kept in the
-`mise-data-volume` Docker volume.
+   The first time takes a while: the image is built, then all the tools are installed
+   in the container. Later creations are much faster, because the tools are kept in the
+   `mise-data-volume` Docker volume.
+
+`devenv:create` and `devenv:open` run on your own machine, from the repository folder.
+They are not available inside the container.
 
 > **VS Code Desktop users**: you can also open this folder in VS Code with the
 > *Dev Containers* extension, then run **Dev Containers: Reopen in Container**.
+
+### Or open it in the cloud (GitHub Codespaces)
+
+You can also run this DevEnv in a cloud development environment such as GitHub Codespaces:
+open <https://codespaces.new/nzuguem/devenv-learnit-m2-dev>, or on GitHub click
+**Code → Codespaces → Create codespace on main**.
+
+**Advantage**: nothing to install on your machine (no Docker, no mise). Everything runs
+in the cloud and you work from your browser, even on a low-powered computer.
+
+Codespaces uses the same `.devcontainer/devcontainer.json`, so you are already inside the
+container: run `herdr` from the terminal. You do not need `devenv:create` or `devenv:open` there.
+
+## Leave and come back
+
+- **Leave the DevEnv**: press **Ctrl+B**, then type **q**.
+- **Come back**: from the repository folder on your machine, run:
+
+  ```bash
+  mise run devenv:open
+  ```
+
+  Your container is kept as it is. If it was stopped (for example after a restart
+  of your machine or of Docker), it is started again.
+- **Start over from scratch**: run `mise run devenv:create`. It recreates the container,
+  then opens the DevEnv again.
 
 ## Code in your browser
 
@@ -80,7 +110,7 @@ at `http://localhost:<port>`:
 
 These ports are only reachable from your own machine. If one of them is already used
 on your machine (3000 and 8080 often are), the container does not start: stop the
-program that uses it, then run `mise run devenv:open` again.
+program that uses it, then run `mise run devenv:create` again.
 
 ## Everyday tips
 
@@ -104,16 +134,16 @@ program that uses it, then run `mise run devenv:open` again.
 
 ## Good to know
 
-- `mise run devenv:open` recreates the container every time. Your project folder
-  (`/workspaces/devenv-learnit-m2-dev`, shared with your machine) and the mise tools
-  are kept. Anything else you change in the container (home folder, `apt` packages)
-  is lost.
+- `mise run devenv:open` keeps your container. `mise run devenv:create` recreates it:
+  your project folder (`/workspaces/devenv-learnit-m2-dev`, shared with your machine)
+  and the mise tools are kept, but anything else you changed in the container (home
+  folder, `apt` packages) is lost.
 
 ## Repository layout
 
 ```text
 .
-├── mise.toml                 # Host tools and tasks (devenv:open)
+├── mise.toml                 # Host tools and tasks (devenv:create, devenv:open)
 ├── mise.devcontainer.toml    # Tasks available inside the container
 ├── prek.toml                 # Git hooks (gitleaks)
 ├── .editorconfig             # Shared editor settings (indentation, line endings)
