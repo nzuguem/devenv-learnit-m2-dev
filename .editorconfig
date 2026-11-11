@@ -1,0 +1,34 @@
+# https://editorconfig.org
+root = true
+
+# Defaults: every file
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Python (PEP 8, ruff/black line length)
+[*.{py,pyi}]
+indent_size = 4
+max_line_length = 88
+
+# Java (Google/IntelliJ style uses 4 spaces)
+[*.java]
+indent_size = 4
+
+# Maven / XML: 2 spaces (default), as in the Maven POM conventions
+
+# Markdown: trailing double space = line break
+[*.{md,mdx}]
+trim_trailing_whitespace = false
+
+# Makefiles require tabs
+[{Makefile,makefile,GNUmakefile,*.mk}]
+indent_style = tab
+
+# Windows scripts (e.g. mvnw.cmd from the Maven wrapper)
+[*.{cmd,bat,ps1}]
+end_of_line = crlf

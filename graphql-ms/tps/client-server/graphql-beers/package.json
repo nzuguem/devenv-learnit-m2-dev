@@ -1,0 +1,28 @@
+{
+  "name": "graphql-beers",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "tp:runtime": "ts-node src/runtime.ts",
+    "tp:server": "ts-node src/server.ts",
+    "tp:server:graphql-http:ruru": "ruru -SP -p 4001 -e http://localhost:4000/graphql",
+    "tp:client": "ts-node src/client.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^24.7.2",
+    "ruru": "^2.0.0-rc.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@graphql-tools/graphql-file-loader": "^8.1.2",
+    "@graphql-tools/load": "^8.1.2",
+    "@graphql-tools/schema": "^8.1.2",
+    "graphql": "^16.11.0",
+    "graphql-request": "^7.4.0"
+  }
+}

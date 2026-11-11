@@ -1,0 +1,8 @@
+.idea
+.env
+# No secrets: only local subgraph URLs, and the gateway build copies it (`cp -r .env dist/`)
+!graphql-ms/materials/graphql-federation/gateway/.env
+*/**/*correction*
+*/**/node_modules
+*/**/target
+*/**/evaluations

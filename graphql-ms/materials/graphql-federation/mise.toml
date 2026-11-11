@@ -1,0 +1,44 @@
+[env]
+OTEL_EXPORTER_OTLP_ENDPOINT='http://localhost:4318'
+
+[tasks."start:gateway"]
+run = '''
+cd ./gateway
+npm install
+npm run build
+npm run start
+'''
+
+[tasks."start:users"]
+run = '''
+cd ./subgraphs/users
+npm install
+npm run build
+npm run start
+'''
+
+[tasks."start:products"]
+run = '''
+cd ./subgraphs/products
+npm install
+npm run build
+npm run start
+'''
+
+[tasks."start:reviews"]
+run = '''
+cd ./subgraphs/reviews
+npm install
+npm run build
+npm run start
+'''
+
+[tasks."start:all:docker"]
+run = '''
+docker compose up --build
+'''
+
+[tasks."start:grafana:otel-lgtm"]
+run = '''
+docker run -it --rm -p 4318:4318 -p 3000:3000 grafana/otel-lgtm:latest
+'''

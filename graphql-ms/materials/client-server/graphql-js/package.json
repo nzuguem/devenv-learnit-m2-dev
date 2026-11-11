@@ -1,0 +1,35 @@
+{
+  "name": "graphql-js",
+  "version": "1.0.0",
+  "scripts": {
+    "sdl": "ts-node src/sdl/runtime.ts",
+    "code": "ts-node src/code/runtime.ts",
+    "tools": "ts-node src/graphql-tools/runtime.ts",
+    "yoga": "ts-node src/graphql-tools/server.yoga.ts",
+    "graphql-http": "ts-node src/graphql-tools/server.graphql-http.ts",
+    "graphql-http:ruru": "ruru -SP -p 4002 -e http://localhost:4001/graphql",
+    "apollo": "ts-node src/graphql-tools/server.apollo.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^24.7.2",
+    "ruru": "^2.0.0-rc.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@apollo/server": "^5.1.0",
+    "@envelop/rate-limiter": "^10.0.1",
+    "@graphql-tools/graphql-file-loader": "^8.1.2",
+    "@graphql-tools/load": "^8.1.2",
+    "@graphql-tools/schema": "^8.1.2",
+    "graphql": "^16.11.0",
+    "graphql-http": "^1.22.4",
+    "graphql-yoga": "^5.16.2",
+    "jsonwebtoken": "^9.0.3"
+  }
+}

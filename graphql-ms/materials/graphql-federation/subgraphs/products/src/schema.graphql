@@ -1,0 +1,31 @@
+
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@external"])
+
+type Query {
+    product(id: ID!): Product
+    products(category: String, limit: Int, offset: Int): [Product!]!
+}
+
+# Product is an entity owned by this subgraph
+type Product @key(fields: "id") {
+    id: ID!
+    name: String!
+    description: String!
+    price: Float!
+    category: String!
+    inventory: Int!
+
+    # Reference to the User who sells this product
+    # The sellerId is stored locally, but we expose the full User type
+    seller: User!
+}
+
+# Extend the User type from the Users subgraph
+# We're adding a "products" field to User without owning the User type
+type User @key(fields: "id") {
+    # The id field is external - it's defined in the Users subgraph
+    id: ID!
+
+    # Products sold by this user - this field is owned by Products subgraph
+    products: [Product!]!
+}

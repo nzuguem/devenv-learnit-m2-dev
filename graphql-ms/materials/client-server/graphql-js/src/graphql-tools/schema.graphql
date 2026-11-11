@@ -1,0 +1,30 @@
+directive @rateLimit(max: Int, window: String, message: String) on FIELD_DEFINITION
+
+input MessageInput {
+    content: String
+    author: String
+}
+
+interface Channel {
+    id: ID!
+}
+
+type Message implements Channel {
+    id: ID!
+    content: String
+    author: String @deprecated(reason: "To be removed in favor of 'creator'")
+}
+
+type Query {
+    getMessage(id: ID!): Channel
+    getMessages: [Channel] @rateLimit(window: "5s", max: 10, message: "Too many calls made by {{ id }}")
+}
+
+type Mutation {
+    createMessage(input: MessageInput): Message
+    updateMessage(id: ID!, input: MessageInput): Message
+}
+
+type Subscription {
+    messageAdded: Message!
+}

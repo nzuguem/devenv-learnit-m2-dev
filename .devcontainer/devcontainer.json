@@ -1,0 +1,75 @@
+{
+  "name": "devenv-learnit-m2-dev",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu26.04",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:4": {},
+    "ghcr.io/devcontainers-extra/features/vscode-server:1": {},
+    "ghcr.io/devcontainers-extra/features/mise:1": {}
+  },
+  "mounts": [
+    {
+      "source": "mise-data-volume",
+      "target": "/mnt/mise-data",
+      "type": "volume"
+    }
+  ],
+  "containerEnv": {
+    "MISE_DATA_DIR": "/mnt/mise-data",
+    "MISE_ENV": "devcontainer",
+    "SHELL": "/bin/bash",
+    "MISE_GLOBAL_CONFIG_FILE": "/workspaces/${localWorkspaceFolderBasename}/.devcontainer/config/tools.toml",
+    "QUARKUS_HTTP_HOST": "0.0.0.0"
+  },
+  "remoteEnv": {
+    "PATH": "${containerEnv:PATH}:/mnt/mise-data/shims"
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "files.autoSave": "afterDelay",
+        "files.autoSaveDelay": 1000,
+        "editor.editContext": false
+      },
+      "extensions": [
+        "mhutchie.git-graph",
+        "redhat.vscode-yaml",
+        "DavidAnson.vscode-markdownlint",
+        "hverlin.mise-vscode",
+        "EditorConfig.EditorConfig",
+        "apollographql.vscode-apollo",
+        "ms-azuretools.vscode-containers",
+        "SonarSource.sonarlint-vscode",
+        "tomoki1207.pdf",
+        "GraphQL.vscode-graphql",
+        "GraphQL.vscode-graphql-syntax",
+        "vscjava.vscode-java-pack",
+        "Oracle.oracle-java",
+        "ms-python.python",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  },
+  "appPort": [
+    "127.0.0.1:8088:8088",
+    "127.0.0.1:8080:8080",
+    "127.0.0.1:9000:9000",
+    "127.0.0.1:4000:4000",
+    "127.0.0.1:4001:4001",
+    "127.0.0.1:4002:4002",
+    "127.0.0.1:4003:4003",
+    "127.0.0.1:3000:3000"
+  ],
+  "portsAttributes": {
+    "8088": { "label": "Code Server" },
+    "8080": { "label": "Quarkus HTTP (calculator-rest, calculator-soap, Dev UI)" },
+    "9000": { "label": "Quarkus gRPC (calculator-grpc)" },
+    "4000": { "label": "GraphQL: Yoga / Federation gateway / graphql-beers" },
+    "4001": { "label": "GraphQL: graphql-http / users subgraph / Ruru" },
+    "4002": { "label": "GraphQL: Ruru / products subgraph" },
+    "4003": { "label": "GraphQL: Apollo Server / reviews subgraph" },
+    "3000": { "label": "Grafana (otel-lgtm)" }
+  },
+  "postCreateCommand": "bash .devcontainer/scripts/postCreateCommand.sh",
+  "postStartCommand": "bash .devcontainer/scripts/postStartCommand.sh",
+  "onCreateCommand": "bash .devcontainer/scripts/onCreateCommand.sh"
+}

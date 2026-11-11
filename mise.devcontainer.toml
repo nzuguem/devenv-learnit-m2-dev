@@ -1,0 +1,95 @@
+# Devcontainer only (on top of mise.toml): env, vars and tasks, including the modules tasks.
+# Loaded when MISE_ENV=devcontainer (set in .devcontainer/devcontainer.json), so that
+# the host does not list these tasks.
+# The devcontainer tools are in .devcontainer/config/tools.toml (container global config).
+
+[env]
+_.file = ".env" # Optional, see .env.example
+
+################################################################################
+# DevEnv (inside the devcontainer)
+################################################################################
+
+# Same extensions as VS Code: read from .devcontainer/devcontainer.json
+[tasks."devenv:code-server:extensions"]
+description = "📦 Install the devcontainer VS Code extensions in Code Server"
+hide = true
+run = '''
+set --
+for ext in $(jq -r '.customizations.vscode.extensions[]' .devcontainer/devcontainer.json); do
+  set -- "$@" --install-extension "$ext"
+done
+code-server "$@" || echo "⚠️  Some extensions could not be installed (see above)"
+'''
+
+# Same settings as VS Code: read from .devcontainer/devcontainer.json and merged into the
+# server-side Machine settings (applied whatever the client, override the User settings)
+[tasks."devenv:code-server:settings"]
+description = "⚙️  Apply the devcontainer VS Code settings to Code Server"
+hide = true
+run = '''
+SETTINGS="$HOME/.vscode-server/data/Machine/settings.json"
+mkdir -p "$(dirname "$SETTINGS")"
+[ -s "$SETTINGS" ] || echo '{}' > "$SETTINGS"
+jq --slurpfile dc .devcontainer/devcontainer.json '. * ($dc[0].customizations.vscode.settings // {})' "$SETTINGS" > "$SETTINGS.tmp"
+mv "$SETTINGS.tmp" "$SETTINGS"
+'''
+
+[tasks."devenv:code-server:start"]
+description = "🚀 Start Code Server (http://localhost:8088)"
+depends = ["devenv:code-server:extensions", "devenv:code-server:settings"]
+run ="nohup bash -c 'code-server --host 0.0.0.0 --port 8088 --accept-server-license-terms --disable-telemetry --without-connection-token > /tmp/code-server.log 2>&1 &'"
+
+################################################################################
+# Environment (inside the devcontainer, run once from postCreateCommand)
+################################################################################
+
+[tasks."env:setup"]
+description = "🔧 Configure the devcontainer environment (idempotent)"
+hide = true
+run = [
+  { task = "env:shell:configure" },
+  { task = "env:lazyvim:install" },
+  { task = "env:herdr-integrations:install" }
+]
+
+[tasks."env:shell:configure"]
+description = "🔧 Source .devcontainer/config/bashrc.sh from ~/.bashrc"
+hide = true
+run = '''
+LINE='source {{config_root}}/.devcontainer/config/bashrc.sh'
+grep -qxF "$LINE" "$HOME/.bashrc" || echo "$LINE" >> "$HOME/.bashrc"
+mkdir -p "$HOME/.devenv.d"
+'''
+
+[tasks."env:lazyvim:install"]
+description = "📦 Install LazyVim"
+hide = true
+run = '''
+if [ -f "$HOME/.config/nvim/lua/config/lazy.lua" ]; then
+  echo "LazyVim already installed"
+  exit 0
+fi
+for d in "$HOME/.config/nvim" "$HOME/.local/share/nvim" "$HOME/.local/state/nvim" "$HOME/.cache/nvim"; do
+  if [ -e "$d" ]; then mv "$d" "$d.bak"; fi
+done
+git clone https://github.com/LazyVim/starter "$HOME/.config/nvim"
+rm -rf "$HOME/.config/nvim/.git"
+'''
+
+# Herdr detects agents by their config directory, which only exists once the agent has run:
+# create them so the integrations (agent state hooks) can be installed right away
+[tasks."env:herdr-integrations:install"]
+description = "📦 Install Herdr integrations for the AI agents (claude, copilot, antigravity-cli)"
+hide = true
+run = '''
+mkdir -p "$HOME/.claude" "$HOME/.copilot" "$HOME/.gemini/config"
+for agent in claude copilot antigravity-cli; do
+  herdr integration install "$agent"
+done
+'''
+
+[tasks."env:prek:install"]
+description = "📦 Install prek git hooks"
+hide = true
+run = "prek install"

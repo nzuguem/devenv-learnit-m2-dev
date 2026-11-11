@@ -1,0 +1,45 @@
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key", "@external"])
+
+type Query {
+    reviewsForProduct(productId: ID!): [Review!]!
+    reviewsByUser(userId: ID!): [Review!]!
+}
+
+type Mutation {
+    createReview(input: CreateReviewInput!): Review!
+}
+
+input CreateReviewInput {
+    productId: ID!
+    authorId: ID!
+    rating: Int!
+    title: String!
+    body: String!
+}
+
+type Review @key(fields: "id") {
+    id: ID!
+    rating: Int!
+    title: String!
+    body: String!
+    createdAt: String!
+
+    # References to entities from other subgraphs
+    author: User!
+    product: Product!
+}
+
+# Extend User to add reviews field
+type User @key(fields: "id") {
+    id: ID!
+    reviews: [Review!]!
+    averageRatingGiven: Float
+}
+
+# Extend Product to add reviews and rating fields
+type Product @key(fields: "id") {
+    id: ID!
+    reviews: [Review!]!
+    averageRating: Float
+    reviewCount: Int!
+}

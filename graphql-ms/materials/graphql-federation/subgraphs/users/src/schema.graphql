@@ -1,0 +1,19 @@
+# The @key directive marks User as an entity that can be referenced
+
+# by other subgraphs. The "id" field is the primary key.
+extend schema @link(url: "https://specs.apollo.dev/federation/v2.0", import: ["@key"])
+
+type Query {
+    user(id: ID!): User
+    users(limit: Int, offset: Int): [User!]!
+}
+
+# The User entity - this is the authoritative definition
+# Other subgraphs can extend this type but Users service owns it
+type User @key(fields: "id") {
+    id: ID!
+    email: String!
+    username: String!
+    fullName: String!
+    createdAt: String!
+}

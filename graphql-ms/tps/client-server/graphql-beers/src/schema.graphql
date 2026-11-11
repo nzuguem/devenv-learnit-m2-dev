@@ -1,0 +1,15 @@
+type Query {
+    users: [User!]!
+    user(name: ID!): User
+}
+
+type User {
+    name: ID!
+    yearOfBirth: Int!
+    beers(favorite: Boolean): [Beer]!
+}
+
+type Beer {
+    name: String!
+    favorite: Boolean
+}

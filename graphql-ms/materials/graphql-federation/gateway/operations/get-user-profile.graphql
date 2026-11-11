@@ -1,0 +1,31 @@
+# This single query fetches data from all three subgraphs
+query GetUserProfile($userId: ID!) {
+    user(id: $userId) {
+        # From Users subgraph
+        id
+        fullName
+        email
+
+        # From Products subgraph (extended User type)
+        products {
+            id
+            name
+            price
+
+            # From Reviews subgraph (extended Product type)
+            averageRating
+            reviewCount
+        }
+
+        # From Reviews subgraph (extended User type)
+        reviews {
+            rating
+            title
+            product {
+                # Resolved via Products subgraph
+                name
+            }
+        }
+        averageRatingGiven
+    }
+}
