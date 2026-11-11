@@ -50,7 +50,8 @@ hide = true
 run = [
   { task = "env:shell:configure" },
   { task = "env:lazyvim:install" },
-  { task = "env:herdr-integrations:install" }
+  { task = "env:herdr-integrations:install" },
+  { task = "env:prek:install" },
 ]
 
 [tasks."env:shell:configure"]
