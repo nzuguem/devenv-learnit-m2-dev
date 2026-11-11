@@ -26,7 +26,7 @@ Docker and mise on your own machine.
 1. Clone the repository:
 
    ```bash
-   git clone <repo-url> && cd devenv-learnit-m2-dev
+   git clone https://github.com/nzuguem/devenv-learnit-m2-dev.git && cd devenv-learnit-m2-dev
    ```
 
 2. Install the host tools (the devcontainer CLI):
