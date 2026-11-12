@@ -4,11 +4,16 @@
 # Everything used inside the devcontainer (tools, env, module tasks) lives in
 # mise.devcontainer.toml, loaded only when MISE_ENV=devcontainer.
 [tools]
-devcontainer-cli = "0.90.0"
+node = "26.13.0"
+# npm backend (@devcontainers/cli): node must be installed first
+devcontainer-cli = { version = "0.90.0", depends = ["node"] }
 usage = "7.3.0" # Required by `mise completion` and tasks `usage` specs
 
 [settings]
 task.quiet = true
+
+[hooks]
+enter = "mise install --quiet"
 
 ################################################################################
 # DevEnv (host side)
