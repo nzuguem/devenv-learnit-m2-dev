@@ -2,13 +2,12 @@
   "compilerOptions": {
     "target": "es2024",
     "module": "commonjs",
-    "outDir": "../../client-server/graphql-js/dist",
-    "rootDir": "../../client-server/graphql-js/src",
+    "outDir": "dist",
+    "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["../../client-server/graphql-js/src/**/*"],
-  "exclude": ["../../client-server/graphql-js/node_modules"]
+  "include": ["src/**/*"]
 }

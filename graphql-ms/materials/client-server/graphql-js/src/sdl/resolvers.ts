@@ -1,18 +1,11 @@
-import { fakeDatabase } from "../database"
-import { Message } from "../types"
+import { messageRepository } from "../database"
+import { Message, MessageInput } from "../types"
 
+// With buildSchema + rootValue, each root field is a function that receives (args, context, info)
 export const rootResolvers = {
-    getMessage: (args: { id: string }): Message => fakeDatabase[args.id],
-    getMessages: (): Message[] | null => Object.values(fakeDatabase),
-    createMessage: (args: { input: Omit<Message, 'id'>}): Message => {
-        const id = String(Object.keys(fakeDatabase).length + 1)
-        const message: Message = { id, content: args.input.content, author: args.input.author}
-        fakeDatabase[id] = message
-        return message
-    },
-    updateMessage: (args: {id: string, input: Omit<Message, 'id'> }) : Message => {
-        const message = fakeDatabase[args.id]
-        Object.assign(message, args.input)
-        return message
-    }
+    getMessage: (args: { id: string }): Message | null => messageRepository.findById(args.id),
+    getMessages: (): Message[] => messageRepository.findAll(),
+    createMessage: (args: { input?: MessageInput }): Message => messageRepository.create(args.input),
+    updateMessage: (args: { id: string, input?: MessageInput }): Message | null =>
+        messageRepository.update(args.id, args.input),
 }

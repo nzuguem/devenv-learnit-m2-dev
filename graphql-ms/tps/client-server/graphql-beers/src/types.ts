@@ -1,6 +1,6 @@
 export type User = {
   name: string;
-  yearOfBrith: number;
+  yearOfBirth: number;
 };
 
 export type Beer = {

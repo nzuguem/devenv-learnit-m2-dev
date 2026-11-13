@@ -1,45 +1,18 @@
 import { graphql, GraphQLSchema } from 'graphql';
+import { GET_USER, GET_USERS_WITH_BEERS } from './operations';
 
+// Exécute les opérations du TP directement sur le schéma, sans couche HTTP
 export async function main(schema: GraphQLSchema) {
-    const result = await graphql({
+    const user = await graphql({
         schema,
-        source: `
-        {
-            user(name: "pores") {
-                yearOfBirth
-            }
-            users {
-                name
-                beers {
-                    name
-                    favorite
-                }
-            }
-
-            users {
-                name
-                beers(favorite: true) {
-                    name
-                }
-            }
-        }
-      `,
+        source: GET_USER,
+        variableValues: { name: "pores" },
     });
-    console.log('Result:', JSON.stringify(result, null, 2));
+    console.log('GetUser(pores):', JSON.stringify(user, null, 2));
 
-    const result1 = await graphql({
+    const usersWithBeers = await graphql({
         schema,
-        source: `
-        {
-            users {
-                name
-                beers(favorite: true) {
-                    name
-                }
-            }
-        }
-      `,
+        source: GET_USERS_WITH_BEERS,
     });
-    console.log('Result 1:', JSON.stringify(result1, null, 2));
+    console.log('GetUsersWithBeers:', JSON.stringify(usersWithBeers, null, 2));
 }
-

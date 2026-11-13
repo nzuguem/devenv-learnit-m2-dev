@@ -1,6 +1,6 @@
 import { GraphQLID, GraphQLInputObjectType, GraphQLList, GraphQLNonNull, GraphQLObjectType, GraphQLResolveInfo, GraphQLSchema, GraphQLString } from "graphql";
 import { GraphQLContext, Message, MessageInput } from "../types";
-import { fakeDatabase } from "../database";
+import { messageRepository } from "../database";
 
 const MessageInputType = new GraphQLInputObjectType({
   name: 'MessageInput',
@@ -66,7 +66,7 @@ const QueryType = new GraphQLObjectType({
         context: GraphQLContext,
         info: GraphQLResolveInfo
       ): Message | null => {
-        return fakeDatabase[args.id];
+        return messageRepository.findById(args.id);
       },
     },
     getMessages: {
@@ -77,7 +77,7 @@ const QueryType = new GraphQLObjectType({
         context: GraphQLContext,
         info: GraphQLResolveInfo
       ): Message[] => {
-        return Object.values(fakeDatabase);
+        return messageRepository.findAll();
       },
     },
   },
@@ -93,14 +93,11 @@ const MutationType = new GraphQLObjectType({
       },
       resolve: (
         parent: undefined,
-        args: { input: MessageInput },
+        args: { input?: MessageInput },
         context: GraphQLContext,
         info: GraphQLResolveInfo
       ): Message => {
-        const id = String(Object.keys(fakeDatabase).length + 1)
-        const message: Message = { id, content: args.input.content, author: args.input.author}
-        fakeDatabase[id] = message
-        return message
+        return messageRepository.create(args.input);
       },
     },
     updateMessage: {
@@ -111,13 +108,11 @@ const MutationType = new GraphQLObjectType({
       },
       resolve: (
         parent: undefined,
-        args: { id: string; input: MessageInput },
+        args: { id: string; input?: MessageInput },
         context: GraphQLContext,
         info: GraphQLResolveInfo
       ): Message | null => {
-        const message = fakeDatabase[args.id]
-        Object.assign(message, args.input)
-        return message
+        return messageRepository.update(args.id, args.input);
       },
     },
   },

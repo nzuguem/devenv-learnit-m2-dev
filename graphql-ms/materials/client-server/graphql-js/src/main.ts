@@ -1,5 +1,8 @@
 import { graphql, GraphQLSchema } from 'graphql';
 
+// The selections use `... on Message` inline fragments: in the graphql-tools schema, the queries
+// return the `Channel` interface, and the fragment is also valid where the field type is `Message`.
+
 export async function main(schema: GraphQLSchema, rootValue?: unknown) {
     const result1 = await graphql({
         schema,
@@ -8,11 +11,15 @@ export async function main(schema: GraphQLSchema, rootValue?: unknown) {
         {
             getMessage(id: "1") {
                 id
-                author
+                ... on Message {
+                    author
+                }
             }
             getMessages {
-                content
-                author
+                ... on Message {
+                    content
+                    author
+                }
             }
         }
       `,
@@ -46,12 +53,28 @@ export async function main(schema: GraphQLSchema, rootValue?: unknown) {
         {
             getMessages {
                 id
-                content
-                author
+                ... on Message {
+                    content
+                    author
+                }
             }
         }
       `,
     });
     console.log('Result 3:', JSON.stringify(result3, null, 2));
+
+    // Unknown id: the resolver returns null instead of crashing
+    const result4 = await graphql({
+        schema,
+        rootValue,
+        source: `
+        mutation {
+            updateMessage(id: "999", input: {content: "Nobody"}) {
+                id
+            }
+        }
+      `,
+    });
+    console.log('Result 4:', JSON.stringify(result4, null, 2));
 }
 

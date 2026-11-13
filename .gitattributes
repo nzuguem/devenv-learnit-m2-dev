@@ -1,0 +1,9 @@
+# Line endings: LF everywhere. Safety net for WSL users: a clone made with Windows git
+# (core.autocrlf=true by default), or a Windows editor writing CRLF through
+# \\wsl.localhost, would break the shell scripts in the container.
+* text=auto eol=lf
+
+# Windows scripts (e.g. mvnw.cmd from the Maven wrapper)
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf

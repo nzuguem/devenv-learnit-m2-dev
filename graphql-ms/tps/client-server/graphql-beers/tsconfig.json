@@ -2,13 +2,12 @@
   "compilerOptions": {
     "target": "es2024",
     "module": "commonjs",
-    "outDir": "../../client-server/graphql-beers/dist",
-    "rootDir": "../../client-server/graphql-beers/src",
+    "outDir": "dist",
+    "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["../../client-server/graphql-beers/src/**/*"],
-  "exclude": ["../../client-server/graphql-beers/node_modules"]
+  "include": ["src/**/*"]
 }
