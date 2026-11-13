@@ -25,7 +25,7 @@
 
 Avant d'exécuter des requêtes sur une API GraphQL, il faut prendre connaissance de son graphe d'objets ([*Thinking in Graphs*](https://graphql.org/learn/thinking-in-graphs/)).
 
-[**GraphQL Voyager**](https://github.com/graphql-kit/graphql-voyager) est un outil open source qui représente n'importe quelle API GraphQL sous forme de graphe interactif.
+[**GraphQL Voyager**](https://apis.guru/graphql-voyager/) est un outil open source qui représente n'importe quelle API GraphQL sous forme de graphe interactif.
 
 Dans 3 onglets de votre navigateur, ouvrez **GraphQL Voyager**, cliquez sur **Change Schema**, choisissez l'onglet **SDL** et collez le contenu du fichier de schéma correspondant :
 

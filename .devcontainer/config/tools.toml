@@ -30,3 +30,6 @@ quarkus = "3.40.1.1"
 
 [settings]
 experimental = true
+
+[settings.self_update]
+auto = true
