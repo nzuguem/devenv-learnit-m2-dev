@@ -17,7 +17,7 @@ void main(String[] args) {
 
     var schema = """
     type Query {
-        hello(name: String!): String
+        hello(name: String!): String!
     }
     """;
 

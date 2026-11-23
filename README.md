@@ -65,6 +65,40 @@ in the cloud and you work from your browser, even on a low-powered computer.
 Codespaces uses the same `.devcontainer/devcontainer.json`, so you are already inside the
 container: run `herdr` from the terminal. You do not need `devenv:create` or `devenv:open` there.
 
+#### Limits of the free plan
+
+Codespaces is free up to a monthly quota, counted on the personal GitHub account that
+creates the codespace:
+
+| GitHub plan | Compute | Storage |
+| ----------- | ------- | ------- |
+| Free | 120 core-hours | 15 GB-month |
+| Pro, or GitHub Education | 180 core-hours | 20 GB-month |
+
+- **Core-hours depend on the machine**: one hour on a 2-core machine uses 2 core-hours,
+  so the Free plan gives about 60 hours on a 2-core machine, and 30 hours on a 4-core one.
+- **Students: ask for GitHub Education, it is free.** On your GitHub account, add and
+  verify your school email address (your Microsoft school account), then go to
+  **Settings → Education benefits → Start an application**. You will also need a proof
+  of enrollment (student card, certificate of enrollment). Approval is not immediate:
+  apply a few days before the course starts.
+- **No surprise bill**: without a payment method on your account, nothing is charged.
+  When the quota is used up, you cannot create or start a codespace until next month.
+- **Stop your codespace when you are done**, from <https://github.com/codespaces>
+  (**⋯ → Stop codespace**). It stops by itself only after 30 minutes without activity.
+- **Delete the codespaces you no longer use**: a codespace uses storage as long as it
+  exists, even when it is stopped. This Devenv takes several GB (Java, Maven, Node,
+  Python, Docker images).
+- **Commit and push often**: a codespace that is not used for 30 days is deleted, with
+  everything that was not pushed.
+- **The first start is long**: each new codespace installs all the tools again, and this
+  time counts in your quota. Restarting an existing codespace is fast.
+- **Ports**: open them from the **Ports** tab of VS Code. They get an address like
+  `https://<codespace-name>-8080.app.github.dev`, not `http://localhost:8080`.
+  You do not need Code Server (port 8088): Codespaces already gives you VS Code.
+- **AI assistants**: Claude Code, Copilot CLI and Antigravity CLI each need their own
+  account, as on your machine.
+
 ## Windows (WSL2)
 
 On Windows, run the Devenv from WSL2 (a Linux system built into Windows). Every command

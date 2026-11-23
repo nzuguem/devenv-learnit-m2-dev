@@ -8,7 +8,7 @@ export async function main(schema: GraphQLSchema, rootValue?: unknown) {
         schema,
         rootValue,
         source: `
-        {
+        query {
             getMessage(id: "1") {
                 id
                 ... on Message {
@@ -50,7 +50,7 @@ export async function main(schema: GraphQLSchema, rootValue?: unknown) {
         schema,
         rootValue,
         source: `
-        {
+        query {
             getMessages {
                 id
                 ... on Message {
